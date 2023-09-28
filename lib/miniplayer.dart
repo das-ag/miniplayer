@@ -29,8 +29,11 @@ class Miniplayer extends StatefulWidget {
   ///Option to set the animation curve
   final Curve curve;
 
-  ///Sets the background-color of the miniplayer
+  ///Sets the background-color of the expanded miniplayer
   final Color backgroundColor;
+
+  // Sets the background of the minified miniplayer
+  final Color miniBackgroundColor;
 
   ///Option to set the animation duration
   final Duration duration;
@@ -57,6 +60,7 @@ class Miniplayer extends StatefulWidget {
     required this.builder,
     this.curve = Curves.easeOut,
     this.elevation = 0,
+    this.miniBackgroundColor = Colors.white,
     this.backgroundColor = Colors.transparent,
     this.valueNotifier,
     this.duration = const Duration(milliseconds: 300),
@@ -158,6 +162,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
         builder: (BuildContext context, double height, Widget? _) {
           var _percentage = ((height - widget.minHeight)) /
               (widget.maxHeight - widget.minHeight);
+          // print("Percentage: $_percentage");
 
           return Stack(
             alignment: Alignment.bottomCenter,
@@ -194,7 +199,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                         );
                       },
                       child: Material(
-                        color: Colors.transparent, // Transparent bg
+                        color:  Color.lerp(widget.miniBackgroundColor, widget.backgroundColor, _percentage), // Transparent bg
                         child: Container(
                           constraints: BoxConstraints.expand(),
                           child: widget.builder(height, _percentage),
